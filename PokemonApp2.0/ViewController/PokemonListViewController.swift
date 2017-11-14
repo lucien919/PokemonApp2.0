@@ -49,7 +49,6 @@ class PokemonListViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let v = segue.destination as? PokemonViewController else{return}
         
-        
         v.pokemonURL = self.selectedPokemon?.pokemonURL
     }
     
@@ -59,7 +58,7 @@ class PokemonListViewController: UIViewController {
         let ok = UIAlertAction(title: "Save", style: .default) {
             [unowned self] (action) in
             guard let name = alert.textFields?.first?.text else {return}
-            //            guard let lastName = alert.textFields?[1].text else {return}
+
             var url:String?
             self.pokemon?.forEach{
                 if($0.pokemonName==name){
@@ -70,9 +69,7 @@ class PokemonListViewController: UIViewController {
             guard let u = url else{return}
             
             let p = PokemonBasic(pokemonName: name, pokemonURL: u)
-            //            if let number = alert.textFields?[2].text{
-            //                guy.number = Int(number)
-            //            }
+            
             self.saveToCoreData(p)
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel)
@@ -81,12 +78,7 @@ class PokemonListViewController: UIViewController {
         alert.addTextField { (textField) in
             textField.placeholder = "Example: pikachu (Remember no caps)"
         }
-        //        alert.addTextField { (textField) in
-        //            textField.placeholder = "Last Name"
-        //        }
-        //        alert.addTextField { (textField) in
-        //            textField.placeholder = "Number (Optional)"
-        //        }
+        
         self.present(alert, animated: true)
     }
     
@@ -99,6 +91,10 @@ class PokemonListViewController: UIViewController {
             self.fav.title = "list"
         }
         self.pokemonListCollection.reloadData()
+    }
+    
+    @IBAction func rootDex(_ sender:AnyObject){
+        setup(Networking.pokemonAPIRootURL, PokemonListType.root)
     }
     
 }
@@ -153,9 +149,19 @@ extension PokemonListCollectionFunctions: UICollectionViewDelegate, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         collectionView.deselectItem(at: indexPath, animated: true)
-        self.selectedPokemon = pokemon?[indexPath.item]
+        
+        if(loadFavs){
+            let mon = favoritePokemon[indexPath.row]
+            
+            guard let name = mon.value(forKey: "name") as? String else{return}
+            guard let url = mon.value(forKey: "url") as? String else{return}
+            
+            self.selectedPokemon = PokemonBasic(pokemonName: name, pokemonURL: url)
+        }else{
+            self.selectedPokemon = pokemon?[indexPath.item]
+        }
+        
         performSegue(withIdentifier: "ToPokemonSegue", sender: self)
     }
     
@@ -192,6 +198,7 @@ extension PokemonListOtherFunctions{
         
         poke.setValue(p.pokemonName, forKey: "name")
         poke.setValue(p.pokemonURL, forKey: "url")
+        poke.setValue(LoginInfo.shared.user?.uid, forKey: "userKey")
         
         
         do {
@@ -210,7 +217,14 @@ extension PokemonListOtherFunctions{
         let request = NSFetchRequest<NSManagedObject>(entityName:"FavoritePokemon")
         
         do {
-            self.favoritePokemon = try managedContext.fetch(request)
+            let dummy = try managedContext.fetch(request)
+            
+            dummy.forEach{
+                guard let key = $0.value(forKey: "userKey") as? String else{return}
+                guard LoginInfo.shared.user?.uid==key else{return}
+                self.favoritePokemon.append($0)
+            }
+            
             //self.pokemonListCollection.reloadData()
         } catch let error {
             print(error.localizedDescription)

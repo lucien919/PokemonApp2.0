@@ -3,8 +3,9 @@
     <entity name="FavoritePokemon" representedClassName="FavoritePokemon" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userKey" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="FavoritePokemon" positionX="-36" positionY="9" width="128" height="75"/>
+        <element name="FavoritePokemon" positionX="-36" positionY="9" width="128" height="90"/>
     </elements>
 </model>
