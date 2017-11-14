@@ -12,11 +12,13 @@ import CoreData
 
 class PokemonListViewController: UIViewController {
     @IBOutlet weak var pokemonListCollection:UICollectionView!
+    @IBOutlet weak var fav:UIBarButtonItem!
+    
     var favoritePokemon:[NSManagedObject] = []
+    var loadFavs:Bool = false
     
     var pokemonListURL:String?
     var pokemonListType:PokemonListType?
-    var pokemonRoot:Bool = true
     
     var pokemon:[PokemonBasic]?
     var operationQueue:OperationQueue = OperationQueue()
@@ -29,8 +31,10 @@ class PokemonListViewController: UIViewController {
         self.pokemonListCollection.delegate = self
         self.pokemonListCollection.dataSource = self
         
+        getFavoritePokemon()
+        
         guard let type = pokemonListType else{
-            setup("http://pokeapi.co/api/v2/item/132/", PokemonListType.helditem)
+            setup(Networking.pokemonAPIRootURL, PokemonListType.root)
             return
         }
         guard let url = pokemonListURL else{return}
@@ -49,6 +53,54 @@ class PokemonListViewController: UIViewController {
         v.pokemonURL = self.selectedPokemon?.pokemonURL
     }
     
+    @IBAction func addFavoritePokemon(_ sender:AnyObject) {
+        let alert = UIAlertController(title: "Add Pokemon", message: "Enter a name", preferredStyle: .alert)
+        
+        let ok = UIAlertAction(title: "Save", style: .default) {
+            [unowned self] (action) in
+            guard let name = alert.textFields?.first?.text else {return}
+            //            guard let lastName = alert.textFields?[1].text else {return}
+            var url:String?
+            self.pokemon?.forEach{
+                if($0.pokemonName==name){
+                    url = $0.pokemonURL
+                }
+            }
+            
+            guard let u = url else{return}
+            
+            let p = PokemonBasic(pokemonName: name, pokemonURL: u)
+            //            if let number = alert.textFields?[2].text{
+            //                guy.number = Int(number)
+            //            }
+            self.saveToCoreData(p)
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        alert.addTextField { (textField) in
+            textField.placeholder = "Example: pikachu (Remember no caps)"
+        }
+        //        alert.addTextField { (textField) in
+        //            textField.placeholder = "Last Name"
+        //        }
+        //        alert.addTextField { (textField) in
+        //            textField.placeholder = "Number (Optional)"
+        //        }
+        self.present(alert, animated: true)
+    }
+    
+    @IBAction func changeList(_ sender:AnyObject){
+        if(loadFavs){
+            self.loadFavs = false
+            self.fav.title = "favs"
+        }else{
+            self.loadFavs = true
+            self.fav.title = "list"
+        }
+        self.pokemonListCollection.reloadData()
+    }
+    
 }
 
 typealias PokemonListCollectionFunctions = PokemonListViewController
@@ -59,8 +111,13 @@ extension PokemonListCollectionFunctions: UICollectionViewDelegate, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let count = pokemon?.count else{return 0}
-        return count
+        if(loadFavs){
+            return favoritePokemon.count
+            
+        }else{
+            guard let count = pokemon?.count else{return 0}
+            return count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -72,12 +129,25 @@ extension PokemonListCollectionFunctions: UICollectionViewDelegate, UICollection
         cell.layer.borderColor = UIColor.black.cgColor
         cell.layer.borderWidth = 2
         
-        guard let mon = pokemon?[indexPath.row] else{return cell}
-        
-        cell.pokemonName.text = mon.pokemonName
-        cell.pokemonName.textColor = UIColor.cyan
-        guard let val = URL(string: mon.pokemonURL)?.lastPathComponent else{return cell}
-        cell.pokemonImageView.imageFrom(url: Networking.imageRootURL+"\(val).png", queue: operationQueue)
+        if(loadFavs){
+            let mon = favoritePokemon[indexPath.row]
+            
+            guard let name = mon.value(forKeyPath: "name") as? String else {return cell}
+            guard let url = mon.value(forKeyPath: "url") as? String else {return cell}
+            
+            cell.pokemonName.text = name
+            cell.pokemonName.textColor = UIColor.cyan
+            guard let val = URL(string: url)?.lastPathComponent else{return cell}
+            cell.pokemonImageView.imageFrom(url: Networking.imageRootURL+"\(val).png", queue: operationQueue)
+            
+        }else{
+            guard let mon = pokemon?[indexPath.row] else{return cell}
+            
+            cell.pokemonName.text = mon.pokemonName
+            cell.pokemonName.textColor = UIColor.cyan
+            guard let val = URL(string: mon.pokemonURL)?.lastPathComponent else{return cell}
+            cell.pokemonImageView.imageFrom(url: Networking.imageRootURL+"\(val).png", queue: operationQueue)
+        }
         
         return cell
     }
@@ -141,49 +211,15 @@ extension PokemonListOtherFunctions{
         
         do {
             self.favoritePokemon = try managedContext.fetch(request)
-            self.pokemonListCollection.reloadData()
+            //self.pokemonListCollection.reloadData()
         } catch let error {
             print(error.localizedDescription)
         }
         
     }
     
-    @IBAction func addFavoritePokemon(_ sender:AnyObject) {
-        let alert = UIAlertController(title: "Add Pokemon", message: "Enter a name", preferredStyle: .alert)
-        
-        let ok = UIAlertAction(title: "Save", style: .default) {
-            [unowned self] (action) in
-            guard let name = alert.textFields?.first?.text else {return}
-//            guard let lastName = alert.textFields?[1].text else {return}
-            var url:String?
-            self.pokemon?.forEach{
-                if($0.pokemonName==name){
-                    url = $0.pokemonURL
-                }
-            }
-            
-            guard let u = url else{return}
-            
-            let p = PokemonBasic(pokemonName: name, pokemonURL: u)
-//            if let number = alert.textFields?[2].text{
-//                guy.number = Int(number)
-//            }
-            self.saveToCoreData(p)
-        }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
-        alert.addAction(ok)
-        alert.addAction(cancel)
-        alert.addTextField { (textField) in
-            textField.placeholder = "Example: pikachu (Remember no caps)"
-        }
-//        alert.addTextField { (textField) in
-//            textField.placeholder = "Last Name"
-//        }
-//        alert.addTextField { (textField) in
-//            textField.placeholder = "Number (Optional)"
-//        }
-        self.present(alert, animated: true)
-    }
+    
+    
     
 }
 

@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -93,7 +94,7 @@
             </objects>
             <point key="canvasLocation" x="-1457" y="498"/>
         </scene>
-        <!--Pokemon Select-->
+        <!--Pokemon List View Controller-->
         <scene sceneID="UFg-N7-zml">
             <objects>
                 <viewController id="oKx-FR-u3A" customClass="PokemonListViewController" customModule="PokemonApp2_0" customModuleProvider="target" sceneMemberID="viewController">
@@ -158,8 +159,22 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2U4-dz-kUK"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Pokemon Select" id="Dv0-Qy-vys"/>
+                    <navigationItem key="navigationItem" id="Dv0-Qy-vys">
+                        <rightBarButtonItems>
+                            <barButtonItem title="addFav" id="gZL-mB-wmC">
+                                <connections>
+                                    <action selector="addFavoritePokemon:" destination="oKx-FR-u3A" id="QaW-bS-OXT"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="favs" id="QcQ-SN-tQ3">
+                                <connections>
+                                    <action selector="changeList:" destination="oKx-FR-u3A" id="AA3-lS-NiM"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                     <connections>
+                        <outlet property="fav" destination="QcQ-SN-tQ3" id="q0k-Xd-Oia"/>
                         <outlet property="pokemonListCollection" destination="kqg-Pl-ov0" id="7g3-kF-DjZ"/>
                         <segue destination="Evs-4L-LEj" kind="show" identifier="ToPokemonSegue" id="tQz-4g-KLf">
                             <nil key="action"/>
