@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PokemonBasicInfoCell" rowHeight="125" id="0bH-7x-6TL" customClass="PokemonBasicInfoCell" customModule="PokemonApp2_0" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="340" height="125"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0bH-7x-6TL" id="kkx-qR-GOI">
+                <rect key="frame" x="0.0" y="0.0" width="340" height="124.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="okH-ID-Bfo">
+                        <rect key="frame" x="25" y="0.0" width="117" height="124.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="okH-ID-Bfo" secondAttribute="height" multiplier="118:125" id="H8i-0f-n2t"/>
+                            <constraint firstAttribute="width" constant="117" id="iPY-eU-j8c"/>
+                            <constraint firstAttribute="height" constant="124.5" id="xLk-xS-X0l"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2iH-HN-sT5">
+                        <rect key="frame" x="142" y="11" width="182" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ID" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8j5-Bc-Mj5">
+                        <rect key="frame" x="142" y="32" width="182" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weight" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N2m-HG-OYC">
+                        <rect key="frame" x="142" y="74" width="182" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Height" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dra-Uk-PHy">
+                        <rect key="frame" x="142" y="53" width="182" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="N2m-HG-OYC" firstAttribute="top" secondItem="Dra-Uk-PHy" secondAttribute="bottom" id="6ur-Da-e90"/>
+                    <constraint firstItem="2iH-HN-sT5" firstAttribute="top" secondItem="kkx-qR-GOI" secondAttribute="topMargin" id="Aea-jx-e2O"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Dra-Uk-PHy" secondAttribute="trailing" id="AhY-Es-a3b"/>
+                    <constraint firstItem="2iH-HN-sT5" firstAttribute="trailing" secondItem="kkx-qR-GOI" secondAttribute="trailingMargin" id="JM0-kY-etY"/>
+                    <constraint firstItem="N2m-HG-OYC" firstAttribute="leading" secondItem="okH-ID-Bfo" secondAttribute="trailing" id="Jm9-wK-VS2"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="N2m-HG-OYC" secondAttribute="trailing" id="Lmr-v6-rj8"/>
+                    <constraint firstItem="8j5-Bc-Mj5" firstAttribute="top" secondItem="2iH-HN-sT5" secondAttribute="bottom" id="PrB-dE-xR8"/>
+                    <constraint firstItem="2iH-HN-sT5" firstAttribute="leading" secondItem="okH-ID-Bfo" secondAttribute="trailing" id="Uzh-H4-ejh"/>
+                    <constraint firstItem="Dra-Uk-PHy" firstAttribute="leading" secondItem="okH-ID-Bfo" secondAttribute="trailing" id="XMh-kF-pzL"/>
+                    <constraint firstItem="Dra-Uk-PHy" firstAttribute="top" secondItem="8j5-Bc-Mj5" secondAttribute="bottom" id="ZCM-m6-l3S"/>
+                    <constraint firstAttribute="bottom" secondItem="okH-ID-Bfo" secondAttribute="bottom" id="h1E-MV-LQS"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="8j5-Bc-Mj5" secondAttribute="trailing" id="hjC-Ix-NJF"/>
+                    <constraint firstItem="8j5-Bc-Mj5" firstAttribute="leading" secondItem="okH-ID-Bfo" secondAttribute="trailing" id="jti-nY-Pgg"/>
+                    <constraint firstItem="okH-ID-Bfo" firstAttribute="leading" secondItem="kkx-qR-GOI" secondAttribute="leading" constant="25" id="zO3-SF-Zvr"/>
+                    <constraint firstItem="okH-ID-Bfo" firstAttribute="top" secondItem="kkx-qR-GOI" secondAttribute="top" id="zRA-c3-P63"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="r10-s2-iX8"/>
+            <connections>
+                <outlet property="heightLabel" destination="Dra-Uk-PHy" id="JZ0-jk-9lL"/>
+                <outlet property="idLabel" destination="8j5-Bc-Mj5" id="jhl-Mi-Ux3"/>
+                <outlet property="nameLabel" destination="2iH-HN-sT5" id="22g-2u-AnG"/>
+                <outlet property="pokemonImageView" destination="okH-ID-Bfo" id="xBE-wR-vkA"/>
+                <outlet property="weightLAbel" destination="N2m-HG-OYC" id="Lm1-p0-pYY"/>
+            </connections>
+            <point key="canvasLocation" x="21" y="50.5"/>
+        </tableViewCell>
+    </objects>
+</document>

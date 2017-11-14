@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PokemonSpritesCell" rowHeight="83" id="so9-Ob-1Oz" customClass="PokemonSpritesCell" customModule="PokemonApp2_0" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="340" height="125"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="so9-Ob-1Oz" id="URF-8z-CSX">
+                <rect key="frame" x="0.0" y="0.0" width="340" height="124.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6so-YR-blb">
+                        <rect key="frame" x="16" y="27" width="70" height="71"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="6so-YR-blb" secondAttribute="height" multiplier="70:71" id="RFP-ZZ-qc5"/>
+                            <constraint firstAttribute="width" constant="70" id="p71-7b-lmj"/>
+                            <constraint firstAttribute="height" constant="71" id="q05-Ol-RtU"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ehM-dN-iX8">
+                        <rect key="frame" x="94" y="27" width="70" height="71"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="71" id="XtC-AD-tUk"/>
+                            <constraint firstAttribute="width" constant="70" id="gws-Ii-g1s"/>
+                            <constraint firstAttribute="width" secondItem="ehM-dN-iX8" secondAttribute="height" multiplier="70:71" id="nlk-cQ-87v"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NfR-Pv-SKm">
+                        <rect key="frame" x="176" y="27" width="70" height="71"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="4xL-2L-aGR"/>
+                            <constraint firstAttribute="width" secondItem="NfR-Pv-SKm" secondAttribute="height" multiplier="70:71" id="OkT-UE-qhT"/>
+                            <constraint firstAttribute="height" constant="71" id="kjG-J2-eC1"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IC6-xa-bMh">
+                        <rect key="frame" x="254" y="27" width="70" height="71"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="3t3-cZ-Kpz"/>
+                            <constraint firstAttribute="width" secondItem="IC6-xa-bMh" secondAttribute="height" multiplier="70:71" id="Zfa-b7-iNd"/>
+                            <constraint firstAttribute="height" constant="71" id="jjM-FM-nkb"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="6so-YR-blb" firstAttribute="top" secondItem="URF-8z-CSX" secondAttribute="topMargin" constant="16" id="DlT-np-Yfd"/>
+                    <constraint firstItem="NfR-Pv-SKm" firstAttribute="top" secondItem="URF-8z-CSX" secondAttribute="topMargin" constant="16" id="Ei8-QL-ieX"/>
+                    <constraint firstItem="IC6-xa-bMh" firstAttribute="leading" secondItem="NfR-Pv-SKm" secondAttribute="trailing" constant="8" id="Rux-N9-ROH"/>
+                    <constraint firstItem="ehM-dN-iX8" firstAttribute="leading" secondItem="6so-YR-blb" secondAttribute="trailing" constant="8" id="U0d-Wa-dkF"/>
+                    <constraint firstItem="IC6-xa-bMh" firstAttribute="trailing" secondItem="URF-8z-CSX" secondAttribute="trailingMargin" id="VjK-b7-Krr"/>
+                    <constraint firstItem="IC6-xa-bMh" firstAttribute="top" secondItem="URF-8z-CSX" secondAttribute="topMargin" constant="16" id="bfg-eM-fCX"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="NfR-Pv-SKm" secondAttribute="bottom" constant="16" id="eh7-ee-9UU"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="ehM-dN-iX8" secondAttribute="bottom" constant="16" id="fpG-2h-wzN"/>
+                    <constraint firstItem="ehM-dN-iX8" firstAttribute="top" secondItem="URF-8z-CSX" secondAttribute="topMargin" constant="16" id="m5B-lh-COY"/>
+                    <constraint firstItem="6so-YR-blb" firstAttribute="leading" secondItem="URF-8z-CSX" secondAttribute="leadingMargin" id="mFF-8c-Ueg"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="IC6-xa-bMh" secondAttribute="bottom" constant="16" id="mam-hw-1wv"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="6so-YR-blb" secondAttribute="bottom" constant="16" id="nen-tG-3op"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="adV-Te-WNy"/>
+            <connections>
+                <outlet property="backDef" destination="ehM-dN-iX8" id="go7-u8-5av"/>
+                <outlet property="backShiny" destination="IC6-xa-bMh" id="1qe-yv-lxi"/>
+                <outlet property="frontDef" destination="6so-YR-blb" id="tq4-0g-WRB"/>
+                <outlet property="frontShiny" destination="NfR-Pv-SKm" id="aNl-IW-7fR"/>
+            </connections>
+            <point key="canvasLocation" x="19" y="71.5"/>
+        </tableViewCell>
+    </objects>
+</document>
