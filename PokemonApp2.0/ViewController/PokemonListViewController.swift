@@ -12,7 +12,6 @@ import CoreData
 
 class PokemonListViewController: UIViewController {
     @IBOutlet weak var pokemonListCollection:UICollectionView!
-    @IBOutlet weak var fav:UIBarButtonItem!
     
     var favoritePokemon:[NSManagedObject] = []
     var loadFavs:Bool = false
@@ -103,6 +102,7 @@ class PokemonListViewController: UIViewController {
     
     @IBAction func changeToFavs(_ sender:AnyObject){
         loadFavs = true
+        getFavoritePokemon()
         pokemonListCollection.reloadData()
     }
     
@@ -263,6 +263,8 @@ extension PokemonListOtherFunctions{
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
         let request = NSFetchRequest<NSManagedObject>(entityName:"FavoritePokemon")
+        
+        favoritePokemon.removeAll()
         
         do {
             let dummy = try managedContext.fetch(request)
