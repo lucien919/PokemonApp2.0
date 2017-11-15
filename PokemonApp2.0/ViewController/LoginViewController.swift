@@ -153,10 +153,10 @@ extension TextFieldFunctions:UITextFieldDelegate{
                 
                 return false
             }
-            
+            self.loginToFirebase()
         }
         
-        self.loginToFirebase()
+        
         return false
         
     }
