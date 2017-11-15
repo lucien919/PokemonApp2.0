@@ -30,6 +30,7 @@ class LoginInfo{
             guard let user = user else{return}
             guard let email = user.email else{return}
             self.user = User(email: email, uid: user.uid)
+            //sharedAuth.createUser(withEmail: <#T##String#>, password: <#T##String#>, completion: <#T##AuthResultCallback?##AuthResultCallback?##(User?, Error?) -> Void#>)
         }
     }
 }

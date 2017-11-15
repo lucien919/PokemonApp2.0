@@ -18,7 +18,7 @@ class PokemonListViewController: UIViewController {
     var loadFavs:Bool = false
     
     var pokemonListURL:String?
-    var pokemonListType:PokemonListType?
+    var pokemonListType:PokemonListType = PokemonListType.root
     
     var pokemon:[PokemonBasic]?
     var operationQueue:OperationQueue = OperationQueue()
@@ -33,12 +33,11 @@ class PokemonListViewController: UIViewController {
         
         getFavoritePokemon()
         
-        guard let type = pokemonListType else{
-            setup(Networking.pokemonAPIRootURL, PokemonListType.root)
+        guard let url = pokemonListURL else{
+            setup(Networking.pokemonAPIRootURL, pokemonListType)
             return
         }
-        guard let url = pokemonListURL else{return}
-        setup(url, type)
+        setup(url, pokemonListType)
     }
     
     override func didReceiveMemoryWarning() {
@@ -51,6 +50,7 @@ class PokemonListViewController: UIViewController {
         
         v.pokemonURL = self.selectedPokemon?.pokemonURL
     }
+    
     
     @IBAction func addFavoritePokemon(_ sender:AnyObject) {
         let alert = UIAlertController(title: "Add Pokemon", message: "Enter a name", preferredStyle: .alert)
@@ -82,18 +82,36 @@ class PokemonListViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
-    @IBAction func changeList(_ sender:AnyObject){
-        if(loadFavs){
-            self.loadFavs = false
-            self.fav.title = "favs"
-        }else{
-            self.loadFavs = true
-            self.fav.title = "list"
+    @IBAction func removeFavoritePokemon(_ sender:AnyObject) {
+        let alert = UIAlertController(title: "Remove Pokemon", message: "Enter a name", preferredStyle: .alert)
+        
+        let ok = UIAlertAction(title: "Remove", style: .default) {
+            [unowned self] (action) in
+            guard let name = alert.textFields?.first?.text else {return}
+            
+            self.removeFromCoreData(name)
         }
-        self.pokemonListCollection.reloadData()
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        alert.addTextField { (textField) in
+            textField.placeholder = "Example: pikachu (Remember no caps)"
+        }
+        
+        self.present(alert, animated: true)
     }
     
-    @IBAction func rootDex(_ sender:AnyObject){
+    @IBAction func changeToFavs(_ sender:AnyObject){
+        loadFavs = true
+        pokemonListCollection.reloadData()
+    }
+    
+    @IBAction func changeToList(_ sender:AnyObject){
+        loadFavs = false
+        pokemonListCollection.reloadData()
+    }
+    
+    @IBAction func display151(_ sender:AnyObject){
         setup(Networking.pokemonAPIRootURL, PokemonListType.root)
     }
     
@@ -120,6 +138,7 @@ extension PokemonListCollectionFunctions: UICollectionViewDelegate, UICollection
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PokemonListCell", for: indexPath) as? PokemonListCell else{fatalError("There is no cell")}
 
         cell.pokemonImageView.image = #imageLiteral(resourceName: "Default")
+        cell.pokemonName.textColor = UIColor.cyan
         cell.backgroundView?.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "Gray-Background"))
         cell.layer.cornerRadius = 10
         cell.layer.borderColor = UIColor.black.cgColor
@@ -132,7 +151,6 @@ extension PokemonListCollectionFunctions: UICollectionViewDelegate, UICollection
             guard let url = mon.value(forKeyPath: "url") as? String else {return cell}
             
             cell.pokemonName.text = name
-            cell.pokemonName.textColor = UIColor.cyan
             guard let val = URL(string: url)?.lastPathComponent else{return cell}
             cell.pokemonImageView.imageFrom(url: Networking.imageRootURL+"\(val).png", queue: operationQueue)
             
@@ -140,7 +158,6 @@ extension PokemonListCollectionFunctions: UICollectionViewDelegate, UICollection
             guard let mon = pokemon?[indexPath.row] else{return cell}
             
             cell.pokemonName.text = mon.pokemonName
-            cell.pokemonName.textColor = UIColor.cyan
             guard let val = URL(string: mon.pokemonURL)?.lastPathComponent else{return cell}
             cell.pokemonImageView.imageFrom(url: Networking.imageRootURL+"\(val).png", queue: operationQueue)
         }
@@ -172,8 +189,17 @@ extension PokemonListOtherFunctions{
     
     func setup(_ url:String,_ type:PokemonListType){
         
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "Background"))
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "Background"))
+        self.pokemonListCollection.backgroundView = imageView
+        
         guard let url = URL(string: url) else{return}
         
+        callNetwork(url, type)
+        
+    }
+    
+    private func callNetwork(_ url:URL,_ type:PokemonListType){
         Networking.callAPI(url, type){
             (val, error) in
             guard error==nil else{return}
@@ -185,9 +211,6 @@ extension PokemonListOtherFunctions{
                 self.pokemonListCollection.reloadData()
             }
         }
-        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "Background"))
-        let imageView = UIImageView(image: #imageLiteral(resourceName: "Background"))
-        self.pokemonListCollection.backgroundView = imageView
     }
     
     private func saveToCoreData(_ p:PokemonBasic){
@@ -211,6 +234,31 @@ extension PokemonListOtherFunctions{
         
     }
     
+    private func removeFromCoreData(_ n:String){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        //var poke:NSManagedObject?
+        favoritePokemon.forEach{
+            guard let name = $0.value(forKey: "name") as? String else{return}
+            if(n==name){
+                managedContext.delete($0)
+                //poke = $0
+                if let index = favoritePokemon.index(of: $0){
+                    favoritePokemon.remove(at: index)
+                    self.pokemonListCollection.reloadData()
+                }
+                
+            }
+        }
+        
+        do{
+            try managedContext.save()
+        }catch let error{
+            print(error.localizedDescription)
+        }
+    }
+    
     private func getFavoritePokemon(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
@@ -225,7 +273,6 @@ extension PokemonListOtherFunctions{
                 self.favoritePokemon.append($0)
             }
             
-            //self.pokemonListCollection.reloadData()
         } catch let error {
             print(error.localizedDescription)
         }

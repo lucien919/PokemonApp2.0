@@ -15,7 +15,7 @@ class PokemonTypeCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        typeLabel.textColor = UIColor.cyan
+        typeLabel.textColor = UIColor.black
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

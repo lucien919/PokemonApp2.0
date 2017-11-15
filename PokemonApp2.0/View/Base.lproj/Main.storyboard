@@ -68,6 +68,7 @@
                         <viewLayoutGuide key="safeArea" id="Yzf-xa-NgP"/>
                     </view>
                     <navigationItem key="navigationItem" id="Tnd-Jj-2qd"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="password" destination="cba-zJ-dPa" id="sK9-rO-bfL"/>
                         <outlet property="userName" destination="x3v-CJ-v7T" id="PyR-G8-Uqs"/>
@@ -103,7 +104,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="kqg-Pl-ov0">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="VpQ-50-fNd">
                                     <size key="itemSize" width="200" height="230"/>
@@ -149,6 +150,27 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EYU-IQ-Mh2">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem title="PokemonList" image="Pika" width="133" id="7He-Zt-69R">
+                                        <connections>
+                                            <action selector="changeToList:" destination="oKx-FR-u3A" id="YYK-TN-5OF"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Favorites" image="Heart" width="133" id="ctU-dH-4sO">
+                                        <connections>
+                                            <action selector="changeToFavs:" destination="oKx-FR-u3A" id="oF0-fJ-Td4"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="ResetList" image="Arceus" width="133" id="aZL-mn-eTM">
+                                        <connections>
+                                            <action selector="display151:" destination="oKx-FR-u3A" id="iHV-r8-Tt4"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -159,27 +181,22 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2U4-dz-kUK"/>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="Dv0-Qy-vys">
                         <rightBarButtonItems>
-                            <barButtonItem title="addFav" id="gZL-mB-wmC">
+                            <barButtonItem title="-" id="wlR-fq-1FN">
+                                <connections>
+                                    <action selector="removeFavoritePokemon:" destination="oKx-FR-u3A" id="KMS-L1-Jbt"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="+" id="gZL-mB-wmC">
                                 <connections>
                                     <action selector="addFavoritePokemon:" destination="oKx-FR-u3A" id="QaW-bS-OXT"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="favs" id="QcQ-SN-tQ3">
-                                <connections>
-                                    <action selector="changeList:" destination="oKx-FR-u3A" id="AA3-lS-NiM"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="All" id="7p8-hj-8RQ">
-                                <connections>
-                                    <action selector="rootDex:" destination="oKx-FR-u3A" id="5vf-LQ-Uqv"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
-                        <outlet property="fav" destination="QcQ-SN-tQ3" id="q0k-Xd-Oia"/>
                         <outlet property="pokemonListCollection" destination="kqg-Pl-ov0" id="7g3-kF-DjZ"/>
                         <segue destination="Evs-4L-LEj" kind="show" identifier="ToPokemonSegue" id="tQz-4g-KLf">
                             <nil key="action"/>
@@ -199,10 +216,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rEB-hv-00Q">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q5N-Er-ROS">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem title="Favorite" image="Heart" id="ssi-Mo-KvN">
+                                        <connections>
+                                            <action selector="favorite:" destination="Evs-4L-LEj" id="Aw8-Km-kdW"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -214,6 +242,7 @@
                         <viewLayoutGuide key="safeArea" id="Y9q-kN-aJL"/>
                     </view>
                     <connections>
+                        <outlet property="favorite" destination="ssi-Mo-KvN" id="W4i-UI-zmg"/>
                         <outlet property="pokemonTable" destination="rEB-hv-00Q" id="UsE-I6-OTD"/>
                         <segue destination="oKx-FR-u3A" kind="show" identifier="ToPokemonListSegue" id="GKh-iU-V26">
                             <nil key="action"/>
@@ -225,7 +254,13 @@
             <point key="canvasLocation" x="1753" y="498"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Arceus" width="200" height="241"/>
+        <image name="Heart" width="1331" height="1207"/>
+        <image name="Pika" width="570" height="470"/>
+    </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="jdr-yJ-MbD"/>
+        <segue reference="tQz-4g-KLf"/>
+        <segue reference="GKh-iU-V26"/>
     </inferredMetricsTieBreakers>
 </document>
