@@ -26,9 +26,6 @@ class LoginViewController: UIViewController {
         guard let email = UserDefaults.standard.object(forKey: Constants.kUserNameKey) as? String else{return}
         userName.text = email
         
-        
-        
-        
         // Do any additional setup after loading the view.
     }
 
@@ -42,6 +39,34 @@ class LoginViewController: UIViewController {
         self.userName.becomeFirstResponder()
     }
 
+    @IBAction func signUp(_ sender:AnyObject){
+        let alert = UIAlertController(title: "Sign Up", message: "Enter your email and password", preferredStyle: .alert)
+        
+        let ok = UIAlertAction(title: "Save", style: .default) {
+            [unowned self] (action) in
+            guard let email = alert.textFields?.first?.text else {return}
+            guard email.isValidEmail() else{return}
+            guard let password = alert.textFields?[1].text else{return}
+            guard password.isValidPassword() else{return}
+            
+            self.signUpTpFirebase(email, password)
+            
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        alert.addTextField { (textField) in
+            textField.placeholder = "Example: example@gmail.com"
+        }
+        alert.addTextField{ textField in
+            textField.placeholder = "Example: abcd3e"
+        }
+        
+        self.present(alert, animated: true)
+        
+    }
+    
+    
     /*
     // MARK: - Navigation
 
@@ -55,10 +80,7 @@ class LoginViewController: UIViewController {
     fileprivate func loginToFirebase(){
         LoginInfo.shared.sharedAuth.signIn(withEmail: userName.text!, password: password.text!){
             (user, error) in
-            guard error == nil else{
-                
-                return
-            }
+            guard error == nil else{return}
             guard let user = user else{return}
             guard let email = user.email else{return}
             LoginInfo.shared.user = User(email: email, uid: user.uid)
@@ -71,6 +93,20 @@ class LoginViewController: UIViewController {
         
         guard LoginInfo.shared.isLoggedIn else{return}
         performSegue(withIdentifier: "ToPokemonAfterLoginSegue", sender: self)
+    }
+    
+    fileprivate func signUpTpFirebase(_ email:String,_ password:String){
+        LoginInfo.shared.sharedAuth.createUser(withEmail: email, password: password){
+            (user, error) in
+            guard error == nil else{return}
+            
+            guard let user = user else{return}
+            guard let email = user.email else{return}
+            LoginInfo.shared.user = User(email: email, uid: user.uid)
+            let userDefaults = UserDefaults.standard
+            userDefaults.set(email, forKey: Constants.kUserNameKey)
+        }
+
     }
     
     private func isTouchIDEnabled()->Bool{
